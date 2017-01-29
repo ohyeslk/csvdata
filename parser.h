@@ -24,12 +24,12 @@ struct parser {
     try {
       ans = stoi(buf);
     } catch(...) {
-      cout << "please input a valid col number\n";
+      cout << "Input a valid col number\n";
     }
     return ans;
   }
 
-  // coresponding to "Perform addition, subtraction, division, and multiplication on two columns"
+  // "Perform addition, subtraction, division, and multiplication on two columns"
   void calc_handler() {
     int N = strlen(optarg);
     string buf;
@@ -79,30 +79,61 @@ struct parser {
     int optLen;
     while ((c = getopt(argc, argv, "Ohp:c:s:j:o:")) != -1) {
       // print stats for specified colums;
-      if (c == 'p') {
-        // coresponding to "Output statistics on a column: min, max, median and average"
-        parse_helper(cols_print, string(optarg));
-      } else if (c == 'c') {
-        calc_handler();
-        // specify output file name
-      } else if (c == 'o') {
-        out_file_name = string(optarg);
-        // specify selected columes
-      } else if (c == 's') {
-        parse_helper(cols_selected, string(optarg));
-        // join (inner join for default)
-      } else if (c == 'j') {
-        join_col = str_to_d(string(optarg));  
-        // outer join?
-      } else if (c == 'O') {
-        outer = true;
-      } else if (c == 'h') {
-        has_header = true;
+      switch (c)
+      {
+      case 'p':
+          // coresponding to "Output statistics on a column: min, max, median and average"
+          parse_helper(cols_print, string(optarg));
+          break;
+      case 'c':
+          calc_handler();
+          break;
+      // specify output file name
+      case 'o':
+          out_file_name = string(optarg);
+          break;
+      // specify selected columes
+      case 's':
+          parse_helper(cols_selected, string(optarg));
+          break;
+      // join (inner join for default)
+      case 'j':
+          join_col = str_to_d(string(optarg));
+          break;
+      // outer join
+      case 'O':
+          outer = true;
+          break;
+      case 'h':
+          has_header = true;
+          break;
+      default:
+          break;
       }
+    //   if (c == 'p') {
+    //     // coresponding to "Output statistics on a column: min, max, median and average"
+    //     parse_helper(cols_print, string(optarg));
+    //   } else if (c == 'c') {
+    //     calc_handler();
+    //     // specify output file name
+    //   } else if (c == 'o') {
+    //     out_file_name = string(optarg);
+    //     // specify selected columes
+    //   } else if (c == 's') {
+    //     parse_helper(cols_selected, string(optarg));
+    //     // join (inner join for default)
+    //   } else if (c == 'j') {
+    //     join_col = str_to_d(string(optarg));
+    //     // outer join?
+    //   } else if (c == 'O') {
+    //     outer = true;
+    //   } else if (c == 'h') {
+    //     has_header = true;
+    //   }
     }
     join_file_name = string(argv[argc - 2]);
     in_file_name = string(argv[argc - 1]);
-  }  
+  }
 
   parser() {}
 };

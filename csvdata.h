@@ -17,7 +17,6 @@ class csvdata {
   bool has_header;
 
   void initial_setup(const string &line);
-
   void add_new_records(const csvdata &other, int col_no);
 public:
   vector<stats> stats_of_cols;
