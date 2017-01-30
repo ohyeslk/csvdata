@@ -1,7 +1,7 @@
 #ifndef _csvdata_
 #define _csvdata_
-#include "stats.h"
-#include "record.h"
+#include "statistics.h"
+#include "aggregation.h"
 #include "unistd.h"
 #include <iostream>
 #include <cstdio>
@@ -17,17 +17,17 @@ class csvdata {
   bool has_header;
 
   void initial_setup(const string &line);
-  void add_new_records(const csvdata &other, int col_no);
+  void add_new_aggregations(const csvdata &other, int col_no);
 public:
-  vector<stats> stats_of_cols;
+  vector<statistics> statistics_of_cols;
   vector<string> header_names;
-  vector<record> recs;
+  vector<aggregation> recs;
   int line_num, num_of_cols;
 
   csvdata(const string &file_name, string &out_file_name, bool has_header_);
 
-  // show stats for a specific colume
-  void show_stats(int col_no);
+  // show statistics for a specific colume
+  void show_statistics(int col_no);
 
   // output the processed csv file to a file
   void print_all(const set<int> &st);

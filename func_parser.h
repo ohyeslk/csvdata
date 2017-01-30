@@ -1,5 +1,5 @@
-#ifndef _csvdata_PARSER_
-#define _csvdata_PARSER_
+#ifndef _csvdata_func_parser_
+#define _csvdata_func_parser_
 
 #include <set>
 #include <iostream>
@@ -8,7 +8,7 @@
 #include <string>
 using namespace std;
 
-struct parser {
+struct func_parser {
   //operation and col1 col2
   int col1 = -1, col2 = -1;
   char oper;
@@ -78,7 +78,7 @@ struct parser {
     char c;
     int optLen;
     while ((c = getopt(argc, argv, "Ohp:c:s:j:o:")) != -1) {
-      // print stats for specified colums;
+      // print statistics for specified colums;
       switch (c)
       {
       case 'p':
@@ -135,7 +135,7 @@ struct parser {
     in_file_name = string(argv[argc - 1]);
   }
 
-  parser() {}
+  func_parser() {}
 };
 
 #endif

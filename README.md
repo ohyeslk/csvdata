@@ -55,7 +55,7 @@ Also note that to multiply it's col1xcol2 instead of col1*col2
 You can either do ./csvdata -p 0-2 -o output.txt sample.csv<br>
                or ./csvdata -p 0,1,2 -o output.txt sample.csv<br>
 
-The result of the stats of selected colume will goes to standard output.
+The result of the statistics of selected colume will goes to standard output.
 
 4. Perform an outer and inner join on two data sets<br>
 You can use -j colnumber option to do join using colnumber as a key.<br>

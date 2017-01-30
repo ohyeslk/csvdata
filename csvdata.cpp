@@ -19,15 +19,15 @@ csvdata::csvdata(const string &file_name, string &out_file_name, bool has_header
       initial = false;
       if (has_header) continue;
     }
-    record tmp(line_num++);
-    tmp.input_line(line, stats_of_cols);
+    aggregation tmp(line_num++);
+    tmp.input_line(line, statistics_of_cols);
     recs.push_back(tmp);
   }
 }
 
 void csvdata::initial_setup(const string &line) {
   num_of_cols = 1;
-  stats_of_cols.push_back(stats());
+  statistics_of_cols.push_back(statistics());
   string buf;
   for (auto ele : line) {
     if (ele == ',') {
@@ -38,7 +38,7 @@ void csvdata::initial_setup(const string &line) {
         header_names.push_back(to_string(num_of_cols - 1));
       }
       num_of_cols++;
-      stats_of_cols.push_back(stats());
+      statistics_of_cols.push_back(statistics());
     } else {
       buf.push_back(ele);
     }
@@ -74,19 +74,19 @@ void csvdata::create_col(int col1, int col2, char op) {
   }
 }
 
-// print stats about specified colume to stdout
-void csvdata::show_stats(int col_no) {
-  if (col_no < 0 || col_no >= stats_of_cols.size()) {
+// print statistics about specified colume to stdout
+void csvdata::show_statistics(int col_no) {
+  if (col_no < 0 || col_no >= statistics_of_cols.size()) {
     cout << "col number out of bound\n";
   } else {
-    stats_of_cols[col_no].show(col_no);
+    statistics_of_cols[col_no].show(col_no);
   }
 }
 
 
-// This function only called when doing outer join. You should add records which may not
+// This function only called when doing outer join. You should add aggregations which may not
 // originally existed.
-void csvdata::add_new_records(const csvdata &other, int col_no) {
+void csvdata::add_new_aggregations(const csvdata &other, int col_no) {
   set<string> st;
   for (auto i : recs) {
     assert(col_no >= 0 and col_no < i.content.size());
@@ -94,7 +94,7 @@ void csvdata::add_new_records(const csvdata &other, int col_no) {
   }
   for (auto i : other.recs) {
     if (st.find(i.content[col_no]) == st.end()) {
-      record tmp(line_num++);
+      aggregation tmp(line_num++);
       for (int k = 0; k < num_of_cols; k++) {
         if (k != col_no) {
           string str_tmp = "";
@@ -114,7 +114,7 @@ void csvdata::add_new_records(const csvdata &other, int col_no) {
 
 // Doing the join operation
 void csvdata::join(const csvdata &other, bool outer, int col_no) {
-  map<string, record> exist;
+  map<string, aggregation> exist;
   for (auto i : other.recs) {
     assert(col_no >= 0 and col_no < i.content.size());
     exist[i.content[col_no]] = i;
@@ -136,10 +136,10 @@ void csvdata::join(const csvdata &other, bool outer, int col_no) {
       i++;
     }
   }
-  if (outer) add_new_records(other, col_no);
-  // merge stats for columes
-  for (int k = 0; k < other.stats_of_cols.size(); k++) {
+  if (outer) add_new_aggregations(other, col_no);
+  // merge statistics for columes
+  for (int k = 0; k < other.statistics_of_cols.size(); k++) {
     if (col_no == k) continue;
-    stats_of_cols.push_back(other.stats_of_cols[k]);
+    statistics_of_cols.push_back(other.statistics_of_cols[k]);
   }
 }

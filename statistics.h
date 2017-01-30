@@ -1,11 +1,11 @@
-#ifndef _csvdata_STATS_
-#define _csvdata_STATS_
+#ifndef _csvdata_statistics_
+#define _csvdata_statistics_
 #include <queue>
 #include <cfloat>
 #include <iostream>
 using namespace std;
 
-struct stats {
+struct statistics {
   double min_val, max_val, median_val, average;
 
   // if any valid numeric data has been add to this struct;
@@ -15,7 +15,7 @@ struct stats {
   int num;
   priority_queue<double> small_q, large_q;
 
-  stats() {
+  statistics() {
     median_val = average = 0;
     min_val = DBL_MAX;
     max_val = DBL_MIN;
@@ -23,7 +23,7 @@ struct stats {
     has_data = false;
   }
 
-  // add a number to the stats of this colume
+  // add a number to the statistics of this colume
   void add_number(double x) {
     has_data = true;
     min_val = min(min_val, x);
